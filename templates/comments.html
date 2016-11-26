@@ -1,0 +1,42 @@
+{% load staticfiles %}
+<!doctype html>
+<html ng-app="commentsApp">
+    <head>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+        <link rel="stylesheet" href="{% static 'css/common.css' %}">
+        <script>
+        globals = {
+            commentsUrl: '{% url "comments" %}'
+        }
+        </script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js" charset="utf-8"></script>
+        <script src="{% static 'js/core.js' %}"></script>
+    </head>
+    <body>
+        <div ng-controller="commmentsCtrl">
+            <label>Name:</label>
+            <input type="text" ng-model="yourName" placeholder="Enter you name"> <span>Hello {$yourName$}!</span><br><br>
+            <hr>
+            <div ng-repeat="c in data.comments track by c.id">
+                <h2>{$c.title$}</h2>
+                <p>{$c.body$}</p>
+                <a href="#" ng-click="removeComment(c)">remove</a>
+                <hr>
+            </div>
+            <div class="pure-alert pure-alert-success" ng-show="data.success">
+                <b>Added!</b>
+                <br><br>
+            </div>
+            <br>
+            <form class="pure-form pure-form-aligned" ng-submit="updateComment()">
+                <label>Title:</label>
+                <input type="text" name="title" ng-model="data.title" placeholder="Enter title">
+                <br><br>
+                <label>Body:</label>
+                <textarea name="body" ng-model="data.body" placeholder="Enter Body"></textarea>
+                <input type="submit" value="Submit">
+            </form>
+            <hr>
+        </div>
+    </body>
+</html>
